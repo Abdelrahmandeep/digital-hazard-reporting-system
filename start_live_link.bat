@@ -10,12 +10,13 @@ start "DHRS Backend (8000)" cmd /k ".venv\Scripts\python.exe -m uvicorn backend.
 timeout /t 2 > nul
 start "DHRS Frontend (5173)" cmd /k "cd frontend && npm run preview"
 timeout /t 2 > nul
-start "DHRS Live Tunnel" cmd /k "npx -y localtunnel --port 5173"
+start "DHRS Cloudflare Live Tunnel" cmd /k "cloudflared.exe tunnel --url http://localhost:5173"
 
 echo.
-echo ✅ تم تشغيل السيرفر والواجهة والنفق المباشر!
+echo ✅ تم تشغيل السيرفر والواجهة ونفق Cloudflare المباشر بنجاح!
 echo 📱 الرابط المباشر لشبكة الواي فاي المنزلية: http://192.168.1.10:5173
-echo 🔑 كود التحقق للنفق الخارجي إذا طُلب هو الـ IP العام لجهازك.
+echo 🌐 الرابط العالمي السريع سيظهر في نافذة Cloudflare بدون أي شاشات تحقق أو أرقام سرية!
 echo ======================================================================
+
 echo.
 pause
