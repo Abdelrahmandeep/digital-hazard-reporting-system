@@ -141,4 +141,29 @@ class LoginResponse(BaseModel):
     token: str
     message: str
 
+# WhatsApp Bot Schemas
+class WhatsAppMessageRequest(BaseModel):
+    phone: str = Field("201069218392", description="رقم هاتف العامل على واتساب")
+    sender_name: Optional[str] = "عامل مصري"
+    message_text: str = Field(..., description="نص الرسالة أو التفريغ الصوتي بالعامية")
+    media_url: Optional[str] = None
+
+class WhatsAppMessageResponse(BaseModel):
+    status: str
+    reply_text: str
+    report: Optional[ReportOut] = None
+    points_awarded: int = 50
+    sla_minutes: int = 15
+
+# Kiosk Station Schemas
+class KioskReportRequest(BaseModel):
+    station_id: str = "KIOSK-BAY-03"
+    reporter_code: Optional[str] = "EMP-KIOSK"
+    hazard_type: str
+    location_name: str
+    description: str
+    severity: int = 5
+    likelihood: int = 4
+
+
 

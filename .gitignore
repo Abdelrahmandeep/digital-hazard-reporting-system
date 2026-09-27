@@ -24,3 +24,5 @@ backend/uploads/*
 Thumbs.db
 .vscode/
 .idea/
+*.exe
+*.log

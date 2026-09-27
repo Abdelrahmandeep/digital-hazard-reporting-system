@@ -271,7 +271,48 @@ export const api = {
       throw new Error(err.detail || 'بيانات الدخول غير صحيحة');
     }
     return await res.json();
+  },
+
+  async sendWhatsAppMessage(data: { phone: string; sender_name?: string; message_text: string }): Promise<{
+    status: string;
+    reply_text: string;
+    report: HazardReport;
+    points_awarded: number;
+    sla_minutes: number;
+  }> {
+    const res = await fetch(`${API_BASE}/whatsapp/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'فشل إرسال رسالة واتساب' }));
+      throw new Error(err.detail || 'فشل الاتصال بخادم واتساب');
+    }
+    return await res.json();
+  },
+
+  async sendKioskReport(kioskData: {
+    station_id: string;
+    reporter_code?: string;
+    hazard_type: string;
+    location_name: string;
+    description: string;
+    severity: number;
+    likelihood: number;
+  }): Promise<HazardReport> {
+    const res = await fetch(`${API_BASE}/kiosk/report`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(kioskData)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'فشل إرسال بلاغ الكشك' }));
+      throw new Error(err.detail || 'فشل إرسال البلاغ من كشك الورشة');
+    }
+    return await res.json();
   }
 };
+
 
 
